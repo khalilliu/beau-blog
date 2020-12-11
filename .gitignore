@@ -1,0 +1,50 @@
+.idea/
+/web/node_modules
+/web/dist
+
+/admin/node_modules
+/admin/dist
+# vercel
+/admin/.vercel
+# next.js
+/admin/.next/
+/admin/out/
+
+
+.DS_Store
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+go.sum
+/server/log/
+/server/gva
+/server/latest_log
+
+*.iml
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+
+# vercel
+.vercel
