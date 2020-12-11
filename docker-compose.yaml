@@ -11,7 +11,7 @@ services:
   client:
     build:
       context: ./
-      dockerfile: ./dockerfile_client
+      dockerfile: ./dockerfile_web
     container_name: bb-client
     restart: always
     ports:
@@ -23,20 +23,20 @@ services:
       network:
         ipv4_address: 177.7.0.11
 
-  admin:
-    build:
-      context: ./
-      dockerfile: ./dockerfile_admin
-    container_name: bb-admin
-    restart: always
-    ports:
-      - "8086:8086"
-    depends_on:
-      - server
-    command: ["nginx-debug", "-g", "daemon off;"]
-    networks:
-      network:
-        ipv4_address: 177.7.0.12
+  # admin:
+  #   build:
+  #     context: ./C
+  #     dockerfile: ./dockerfile_admin
+  #   container_name: bb-admin
+  #   restart: always
+  #   ports:
+  #     - "8086:8086"
+  #   depends_on:
+  #     - server
+  #   command: ["nginx-debug", "-g", "daemon off;"]
+  #   networks:
+  #     network:
+  #       ipv4_address: 177.7.0.12
 
   server:
     build:
@@ -54,21 +54,21 @@ services:
       - redis
     networks:
       network:
-        ipv4_address: 177.7.0.13
+        ipv4_address: 177.7.0.12
 
   mysql:
     image: mysql:8.0.21
     container_name: bb-mysql
-    command: mysql --character-set-server=utfmb4 --collation-server=utf8mb4_unicode_ci
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
     ports:
-      - "13306:3306"
+      - "13306:3307"
     environment:
       MYSQL_DATABASE: "bbPlus"
       MYSQL_ROOT_PASSWORD: "Abcd0901"
     networks:
       network:
-        ipv4_address: 177.7.0.14
+        ipv4_address: 177.7.0.13
 
   redis:
     image: redis:6.0.6

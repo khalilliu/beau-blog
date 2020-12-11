@@ -1,0 +1,30 @@
+FROM node:12.16.1
+
+WORKDIR /bb_web/
+RUN mkdir ./client
+COPY client/ ./client/
+
+RUN mkdir ./admin
+COPY admin/ ./admin/
+
+WORKDIR /bb_web/client/
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN cnpm install || npm install
+RUN npm run build
+
+WORKDIR /bb_web/admin/
+RUN cnpm install || npm install
+RUN npm run build
+
+WORKDIR /bb_web/
+
+FROM nginx:alpine
+LABEL MAINTAINER="lkhaliliu@gmail.com"
+
+COPY .docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
+COPY --from=0 /bb_web/client/dist /usr/share/nginx/html/client
+COPY --from=0 /bb_web/admin/dist /usr/share/nginx/html/admin
+RUN cat /etc/nginx/nginx.conf
+RUN cat /etc/nginx/conf.d/my.conf
+RUN ls -al /usr/share/nginx/html
+CMD ls -al /usr/share/nginx/html

@@ -1,12 +1,12 @@
-FROM golang:alpine;
+FROM golang:alpine
 
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.io,direct
 WORKDIR /go/src/beau-blog
-COPY  server/  ./
+COPY server/ ./
 
 RUN cat ./config.yaml
-COPY  .docker-compose/shell-handle.sh .
+COPY .docker-compose/shell/server-handle.sh .
 RUN ls -al
 RUN sh ./server-handle.sh
 RUN rm -f server-handle.sh
@@ -16,15 +16,15 @@ RUN go build -o bb cmd/main.go
 RUN go env && go build -o server
 
 
-FROM alpine:lastest
-LABEL MAINTAINER="khaliliu@gmail.com"
+FROM alpine:latest
+LABEL MAINTAINER="lkhaliliu@gmail.com"
 
 WORKDIR /go/src/beau-blog
 
 COPY --from=0 /go/src/beau-blog/bb  ./
 COPY --from=0 /go/src/beau-blog/server  ./
 COPY --from=0 /go/src/beau-blog/config.yaml  ./
-COPY --from=0 /go/src/beau-blog/bb/resource  ./resource
+COPY --from=0 /go/src/beau-blog/resource  ./resource
 
 EXPOSE 8888
 

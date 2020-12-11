@@ -96,7 +96,7 @@ module.exports = {
                       },
                       commons: {
                         name: 'chunk-commons',
-                        test: resolve('src/components'), // can customize your rules
+                        test: __resolve('src/components'), // can customize your rules
                         minChunks: 3, //  minimum common number
                         priority: 5,
                         reuseExistingChunk: true
