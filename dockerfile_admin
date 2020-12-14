@@ -1,0 +1,20 @@
+FROM node:12.16.1
+
+WORKDIR /bb_admin/
+
+COPY admin/ .
+
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN cnpm install || npm install
+RUN npm run build
+
+RUN cnpm install serve --global
+
+EXPOSE 5000
+
+USER node
+
+WORKDIR /bb_admin/
+
+CMD ["serve", "dist"]
+

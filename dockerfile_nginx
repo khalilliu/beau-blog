@@ -1,0 +1,13 @@
+FROM nginx:alpine
+LABEL MAINTAINER="lkhaliliu@gmail.com"
+
+COPY .docker-compose/nginx/conf.d/my.conf /etc/nginx/conf.d/my.conf
+
+RUN cat /etc/nginx/nginx.conf
+RUN cat /etc/nginx/conf.d/my.conf
+RUN ls -al /usr/share/nginx/html
+CMD ls -al /usr/share/nginx/html
+
+EXPOSE 8080
+
+CMD [ "nginx", "-g", "daemon off;" ]

@@ -1,0 +1,17 @@
+FROM node:12.16.1
+
+WORKDIR /bb_client/
+COPY client/ .
+
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+RUN cnpm install || npm install
+RUN npm run build
+
+RUN npm install --global pm2
+
+EXPOSE 8081
+
+USER node
+
+CMD ["pm2-runtime", "start", "npm", "--", "start"]
+
