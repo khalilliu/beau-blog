@@ -10,11 +10,11 @@ RUN npm run build
 
 RUN cnpm install serve --global
 
-EXPOSE 5000
+EXPOSE 8082
 
 USER node
 
 WORKDIR /bb_admin/
 
-CMD ["serve", "dist"]
+CMD ["serve", "dist", "-l" , "8082"]
 
