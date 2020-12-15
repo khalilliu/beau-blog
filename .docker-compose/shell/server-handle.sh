@@ -9,7 +9,7 @@ cat>"${filename}"<<EOF
 
 # jwt configuration
 jwt:
-  singing-key: 'qmPlus'
+  singing-key: 'bbPlus'
 
 # zap logger configuration
 zap:

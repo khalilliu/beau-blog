@@ -2,6 +2,7 @@ package model
 
 import (
 	"beau-blog/global"
+
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -15,5 +16,3 @@ type SysUser struct {
 	Email     string    `json:"email" gorm:"default:'';comment:邮箱"`
 	Phone     String    `json:"phone" gorm:"default:'';comment:手机号"`
 }
-
-
