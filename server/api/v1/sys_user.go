@@ -33,7 +33,7 @@ func Login(c *gin.Context) {
 
 // 登录成功后签发jwt
 func tokenNext(c *gin.Context, user model.SysUser) {
-	j := &middleware.JWT{}
+	j := &middleware.JWT{SigningKey: []byte(global.BB_CONFIG.JWT.SigningKey)}
 	claims := request.CustomClaims{
 		UUID:        user.UUID,
 		ID:          user.ID,
@@ -45,6 +45,21 @@ func tokenNext(c *gin.Context, user model.SysUser) {
 		ExpiresAt: time.Now().Unix() + 60*60*24*7, // 过期时间 7天
 		Issuer:    "bbPlus",                       // 签名的发行者
 	}
+	token, err := j.CreateToken(claims)
+	if err != nil {
+		global.BB_LOG.Error("获取token失败", zap.Any("err", err))
+		response.FailWithMessage("获取token失败", c)
+		return
+	}
+	if !global.BB_CONFIG.System.UseMultipoing {
+		response.OkWithDetailed(response.LoginResponse{
+			User: user,
+			Token: token,
+			ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
+		}, "登录成功", c)
+		return
+	} 
+
 }
 
 
