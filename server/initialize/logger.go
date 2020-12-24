@@ -1,12 +1,16 @@
 package initialize
 
 import (
+	"beau-blog/global"
+	"context"
+	"fmt"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"log"
 	"os"
 	"time"
 
-	"gorm.io/gorm"
+	"gorm.io/gorm/utils"
 	"gorm.io/gorm/logger"
 )
 
@@ -17,10 +21,10 @@ var (
 		LogLevel: logger.Warn,
 		Colorful: true,
 	})
-	Recorder = traceRecoder{Interface: Default, BeginAt: time.Now()}
+	Recorder = traceRecorder{Interface: Default, BeginAt: time.Now()}
 )
 
-type traceRecoder struct {
+type traceRecorder struct {
 	logger.Interface
 	BeginAt time.Time
 	SQL string
@@ -132,18 +136,18 @@ func (g *GormLogger) Trace(ctx context.Context, begin time.Time, fc func() (stri
 }
 
 func (g *GormLogger) Printf(message string, data ...interface{}) {
-	if global.BB_CONFIG.Mysql.LogZap == "Info" && !global.GVA_CONFIG.Mysql.LogMode {
+	if global.BB_CONFIG.Mysql.LogZap == "Info" && !global.BB_CONFIG.Mysql.LogMode {
 		switch len(data) {
 		case 0:
-			global.BB_CONFIG.Info(message)
+			global.BB_LOG.Info(message)
 		case 1:
-			global.BB_CONFIG.Info("gorm", zap.Any("src", data[0]))
+			global.BB_LOG.Info("gorm", zap.Any("src", data[0]))
 		case 2:
-			global.BB_CONFIG.Info("gorm", zap.Any("src", data[0]), zap.Any("duration", data[1]))
+			global.BB_LOG.Info("gorm", zap.Any("src", data[0]), zap.Any("duration", data[1]))
 		case 3:
-			global.BB_CONFIG.Info("gorm", zap.Any("src", data[0]), zap.Any("duration", data[1]), zap.Any("rows", data[2]))
+			global.BB_LOG.Info("gorm", zap.Any("src", data[0]), zap.Any("duration", data[1]), zap.Any("rows", data[2]))
 		case 4:
-			global.BB_CONFIG.Info("gorm", zap.Any("src", data[0]), zap.Any("duration", data[1]), zap.Any("rows", data[2]), zap.Any("sql", data[3]))
+			global.BB_LOG.Info("gorm", zap.Any("src", data[0]), zap.Any("duration", data[1]), zap.Any("rows", data[2]), zap.Any("sql", data[3]))
 		}
 		return
 	}

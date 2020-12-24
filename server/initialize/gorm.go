@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"beau-blog/global"
 	"beau-blog/model"
 	"fmt"
 	"os"

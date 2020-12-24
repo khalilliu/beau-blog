@@ -8,7 +8,7 @@ jwt:
 zap:
   level: "info"
   format: "console"
-  prefix: "[BEA_BLOG]"
+  prefix: "[BEAU_BLOG]"
   director: "log"
   link-name: "latest_log"
   show-line: true

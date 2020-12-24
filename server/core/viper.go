@@ -1,31 +1,45 @@
 package core
 
 import (
+	"beau-blog/global"
+	"flag"
 	"fmt"
-	"time"
-
-	"go.uber.org/zap"
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
 )
 
-type Server interface {
-}
+func Viper(path ...string) *viper.Viper {
+	var config string
+	if len(path) == 0 {
+		flag.StringVar(&config, "c", "", "choose config file")
+		flag.Parse()
+		if config == "" {
 
-func RunWindowServer() {
-	if global.BB_CONFIG.System.UseMultipoint {
-		// 初始化redis
-		initialize.Redis()
+		} else {
+			fmt.Printf("您正在使用命令行的-c参数传递的值,config的路径为%v\n", config)
+		}
+	} else  {
+		config = path[0]
+		fmt.Printf("您正在使用func Viper()传递的值,config的路径为%v\n", config)
 	}
-	initialize.InitWkMode()
-	Router := initialize.Routers()
 
-	address := fmt.Sprintf(":%d", global.BB_CONFIG.System.Addr)
-	s := initServer(address, Router)
+	v := viper.New()
+	v.SetConfigFile(config)
+	err := v.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+	v.WatchConfig()
 
-	time.Sleep(10 * time.Microsecond)
-	global.BB_LOG.Info("server run success on ", zap.String("address", address))
-	fmt.Printf(`
-		默认前端文件运行地址:http://127.0.0.1:8082
-	`)
+	v.OnConfigChange(func(e fsnotify.Event) {
+		fmt.Println("config file changed:", e.Name)
+		if err := v.Unmarshal(&global.BB_CONFIG); err != nil {
+			fmt.Println(err)
+		}
+	})
 
-	global.BB_LOG.Error(s.ListenAndServe().Error())
+	if err := v.Unmarshal(&global.BB_CONFIG); err != nil {
+		fmt.Println(err)
+	}
+	return v
 }

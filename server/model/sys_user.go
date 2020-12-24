@@ -14,5 +14,5 @@ type SysUser struct {
 	Nickname  string    `json:"nickname" gorm:"default:系统用户;comment:用户昵称"`
 	HeaderImg string    `json:"header_img" gorm:"default:http://qmplusimg.henrongyi.top/head.png;comment:用户头像"`
 	Email     string    `json:"email" gorm:"default:'';comment:邮箱"`
-	Phone     String    `json:"phone" gorm:"default:'';comment:手机号"`
+	Phone     string    `json:"phone" gorm:"default:'';comment:手机号"`
 }

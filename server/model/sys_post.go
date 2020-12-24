@@ -4,9 +4,9 @@ import "beau-blog/global"
 
 type SysPost struct {
 	global.BB_MODEL
-	CategoryId      int         `json:"category_id" gorm:"comment:文章类别id"`
+	CategoryId      uint         `json:"category_id" gorm:"comment:文章类别id"`
 	Category        *SysCategory `json:"category,omitempty" gorm:"-;comment:文章类别"`
-	UserId          int         `json:"user_id"`
+	UserId          uint         `json:"user_id"`
 	Type            int         `json:"type" gorm:"not null default 0; comment:0 文章, 1 页面"`
 	Status          int         `json:"status" gorm:"not null default 0; comment:0 为草稿，1 为待审核，2 为已拒绝，3 为已经发布"`
 	Title           string      `json:"title" gorm:"not null VARCHAR(255); comment:文章标题"`

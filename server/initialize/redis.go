@@ -1,7 +1,9 @@
 package initialize
 
 import (
+	"beau-blog/global"
 	"github.com/go-redis/redis"
+	"go.uber.org/zap"
 )
 
 func Redis()  {

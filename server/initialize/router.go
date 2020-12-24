@@ -1,6 +1,9 @@
 package initialize
 
 import (
+	"beau-blog/global"
+	"beau-blog/router"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
