@@ -6,7 +6,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-type SysUser struct {
+type User struct {
 	global.BB_MODEL
 	UUID      uuid.UUID `json:"uuid" gorm:"comment:用户UUID"`
 	Username  string    `json:"username" gorm:"comment:用户名"`

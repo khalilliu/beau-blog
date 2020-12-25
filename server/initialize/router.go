@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"beau-blog/global"
+	"beau-blog/middleware"
 	"beau-blog/router"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,4 +28,6 @@ func Routers() *gin.Engine {
 		// router.InitJwtRouter(PrivateGroup)
 		router.InitUserRouter(PrivateGroup)
 	}
+	global.BB_LOG.Info("router register success")
+	return  Router
 }
