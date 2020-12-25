@@ -27,7 +27,7 @@ func Login(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	if store.Verify(L.CaptchaId, L.Captcha, true) {
+	if captchaStore.Verify(L.CaptchaId, L.Captcha, true) {
 		User := &model.User{Username: L.Username, Password: L.Password}
 		if err, user := service.Login(User); err != nil {
 			global.BB_LOG.Error("登陆失败! 用户名不存在或者密码错误", zap.Any("err", err))
@@ -61,6 +61,7 @@ func tokenNext(c *gin.Context, user *model.User) {
 		response.FailWithMessage("获取token失败", c)
 		return
 	}
+	// 单点登录
 	if !global.BB_CONFIG.System.UseMultipoint {
 		response.OkWithDetailed(response.LoginResponse{
 			User:      *user,
