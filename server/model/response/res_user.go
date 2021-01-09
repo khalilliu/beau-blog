@@ -4,12 +4,12 @@ import (
 	"beau-blog/model"
 )
 
-type UserResponse struct {
+type ResUser struct {
 	User model.User `json:"user"`
 }
 
-type LoginResponse struct {
+type ResLogin struct {
 	User      model.User `json:"user"`
-	Token      string     `json:"toke"`
+	Token     string     `json:"toke"`
 	ExpiredAt int64      `json:"expired_at"`
 }

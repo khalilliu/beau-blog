@@ -1,11 +1,11 @@
 package request
 
-type PageInfo struct {
+type ReqPageInfo struct {
 	Page     int `json:"page" form: "page"`
 	PageSize int `json:"page_size" form:"pageSize"`
 }
 
 
-type Empty struct {
+type ReqEmpty struct {
 
 }

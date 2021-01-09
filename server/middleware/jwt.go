@@ -70,14 +70,14 @@ func NewJWT() *JWT {
 }
 
 // 创建一个token
-func (j *JWT) CreateToken(claims request.CustomClaims) (string, error) {
+func (j *JWT) CreateToken(claims request.ReqCustomClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.SigningKey)
 }
 
 // 解析token
-func (j *JWT) ParseToken(tokenStr string) (*request.CustomClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenStr, &request.CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
+func (j *JWT) ParseToken(tokenStr string) (*request.ReqCustomClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenStr, &request.ReqCustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return j.SigningKey, nil
 	})
 	if err != nil {
@@ -94,7 +94,7 @@ func (j *JWT) ParseToken(tokenStr string) (*request.CustomClaims, error) {
 		}
 	}
 	if token != nil {
-		if claim, ok := token.Claims.(*request.CustomClaims); ok && token.Valid {
+		if claim, ok := token.Claims.(*request.ReqCustomClaims); ok && token.Valid {
 			return claim, nil
 		}
 		return nil, TokenInvalid

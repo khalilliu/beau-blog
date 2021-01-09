@@ -17,17 +17,16 @@ func Routers() *gin.Engine {
 	Router.Use(middleware.Cors())
 	global.BB_LOG.Info("use middleware cors")
 	global.BB_LOG.Info("register swagger handler")
-	//
-	PublicGroup := Router.Group("")
+	// 客户端api
+	clientGroup := Router.Group("client")
 	{
-		router.InitBaseRouter(PublicGroup)
+		router.InitClientRouter(clientGroup)
 	}
-	PrivateGroup := Router.Group("")
-	PrivateGroup.Use(middleware.JWTAuth())
+	// 服务端api
+	adminGroup := Router.Group("admin")
 	{
-		// router.InitJwtRouter(PrivateGroup)
-		router.InitUserRouter(PrivateGroup)
+		router.InitAdminRouter(adminGroup)
 	}
 	global.BB_LOG.Info("router register success")
-	return  Router
+	return Router
 }

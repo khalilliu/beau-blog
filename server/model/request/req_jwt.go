@@ -5,7 +5,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-type CustomClaims struct {
+type ReqCustomClaims struct {
 	UUID       uuid.UUID
 	ID         uint
 	Username   string

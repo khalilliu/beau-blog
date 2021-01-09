@@ -52,7 +52,7 @@ mysql:
   config: "charset=utf8mb4&parseTime=True&loc=Local"
   db-name: "bbPlus"
   username: "root"
-  password: "Aa@6447985"
+  password: "liukang0901"
   max-idle-conns: 10
   max-open-conns: 100
   log-mode: false

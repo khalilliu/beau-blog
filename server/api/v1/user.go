@@ -21,7 +21,7 @@ import (
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"登陆成功"}"
 // @Router /base/login [post]
 func Login(c *gin.Context) {
-	var L request.Login
+	var L request.ReqLogin
 	_ = c.ShouldBindJSON(&L)
 	if err := utils.Verify(L, utils.LoginVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
@@ -43,7 +43,7 @@ func Login(c *gin.Context) {
 // 登录成功后签发jwt
 func tokenNext(c *gin.Context, user *model.User) {
 	j := &middleware.JWT{SigningKey: []byte(global.BB_CONFIG.JWT.SigningKey)}
-	claims := request.CustomClaims{
+	claims := request.ReqCustomClaims{
 		UUID:       user.UUID,
 		ID:         user.ID,
 		Nickname:   user.Nickname,
@@ -63,7 +63,7 @@ func tokenNext(c *gin.Context, user *model.User) {
 	}
 	// 单点登录
 	if !global.BB_CONFIG.System.UseMultipoint {
-		response.OkWithDetailed(response.LoginResponse{
+		response.OkWithDetailed(response.ResLogin{
 			User:      *user,
 			Token:     token,
 			ExpiredAt: claims.StandardClaims.ExpiresAt * 1000,
@@ -80,7 +80,7 @@ func tokenNext(c *gin.Context, user *model.User) {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"登陆成功"}"
 // @Router /base/register [post]
 func ChangePassword(c *gin.Context) {
-	var user request.ChangePassword
+	var user request.ReqChangePassword
 	_ = c.ShouldBindJSON(&user)
 	if err := utils.Verify(user, utils.ChangePasswordVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
