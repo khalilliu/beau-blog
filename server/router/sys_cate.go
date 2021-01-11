@@ -1,6 +1,9 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	v1 "beau-blog/api/v1"
+	"github.com/gin-gonic/gin"
+)
 
 func InitAdminCateRouter(Router *gin.RouterGroup) gin.IRoutes {
 	CateRouter := Router.Group("category")
